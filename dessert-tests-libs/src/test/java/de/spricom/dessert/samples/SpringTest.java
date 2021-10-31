@@ -12,18 +12,19 @@ import java.util.SortedMap;
 
 import static de.spricom.dessert.assertions.SliceAssertions.dessert;
 
-public class SpringTest {
+class SpringTest {
 
     private Classpath cp = new Classpath();
     private Slice spring = cp.packageTreeOf("org.springframework..*");
 
     @Test
-    public void checkPackageCycles() {
+    void checkPackageCycles() {
         SortedMap<String, PackageSlice> packages = spring
                 // remove known cycles
                 .minus(cp.slice("org.springframework.boot.autoconfigure..*"),
                         cp.slice("org.springframework.boot.cloud.*"),
                         cp.slice("org.springframework.data.jpa.repository.support.*"),
+                        cp.slice("org.springframework.boot.web.servlet.server.*"),
                         cp.slice("org.springframework.cglib.core.*"),
                         cp.slice("org.springframework.objenesis..*"),
                         cp.slice("org.springframework.test..*"))
@@ -33,7 +34,7 @@ public class SpringTest {
     }
 
     @Test
-    public void showUsageOfNestedPackagesFromOuterPackages() {
+    void showUsageOfNestedPackagesFromOuterPackages() {
         SortedMap<String, PackageSlice> packages = cp.rootOf(ApplicationContext.class).partitionByPackage();
         for (PackageSlice slice : packages.values()) {
             try {
@@ -45,7 +46,7 @@ public class SpringTest {
     }
 
     @Test
-    public void showUsageOfOuterPackagesByNestedPackages() {
+    void showUsageOfOuterPackagesByNestedPackages() {
         SortedMap<String, PackageSlice> packages = cp.rootOf(ApplicationContext.class).partitionByPackage();
         for (PackageSlice slice : packages.values()) {
             try {

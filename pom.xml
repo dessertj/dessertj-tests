@@ -14,6 +14,7 @@
         <module>dessert-tests-java-latest</module>
         <module>dessert-tests-java6</module>
         <module>dessert-tests-libs</module>
+        <module>dessert-tests-modules-parent</module>
     </modules>
 
     <properties>

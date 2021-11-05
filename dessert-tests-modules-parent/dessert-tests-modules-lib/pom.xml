@@ -12,15 +12,9 @@
     <artifactId>dessert-tests-modules-lib</artifactId>
     <dependencies>
         <dependency>
-            <groupId>de.spricom.dessert</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>dessert-tests-modules-lib2</artifactId>
-            <version>0.5.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>de.spricom.dessert</groupId>
-            <artifactId>dessert-tests-modules-lib2</artifactId>
-            <version>0.5.0-SNAPSHOT</version>
+            <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

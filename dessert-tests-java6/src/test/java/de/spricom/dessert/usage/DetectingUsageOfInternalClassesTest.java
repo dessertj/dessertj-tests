@@ -1,6 +1,6 @@
 package de.spricom.dessert.usage;
 
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.Base64Data;
+import com.sun.net.httpserver.HttpServer;
 import de.spricom.dessert.classfile.ClassFile;
 import de.spricom.dessert.slicing.Classpath;
 import de.spricom.dessert.slicing.Clazz;
@@ -22,7 +22,7 @@ public class DetectingUsageOfInternalClassesTest {
      */
     @Test
     public void showDependencies() throws IOException {
-        ClassFile cf = new ClassFile(Base64Data.class);
+        ClassFile cf = new ClassFile(HttpServer.class);
         for (String dependentClass : cf.getDependentClasses()) {
             System.out.println(dependentClass);
         }
@@ -41,9 +41,11 @@ public class DetectingUsageOfInternalClassesTest {
             throw new IllegalStateException("Usage of internal class not detected."); // Cannot throw AssertionError here
         } catch (AssertionError er) {
             System.out.println(er.getMessage());
-            assertThat(er.getMessage().trim()).isEqualTo("Illegal Dependencies:\n" +
-                    "de.spricom.dessert.usage.DetectingUsageOfInternalClassesTest\n" +
-                    " -> com.sun.xml.internal.bind.v2.runtime.unmarshaller.Base64Data");
+            assertThat(er.getMessage())
+                    .contains("Illegal Dependencies:")
+                    .contains("de.spricom.dessert.usage.DetectingUsageOfInternalClassesTest")
+                    .contains(" -> com.sun.")
+                    .contains(".HttpServer");
         }
     }
 }

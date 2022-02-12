@@ -3,10 +3,13 @@ package de.spricom.dessert.samples.api;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URL;
 import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -84,10 +87,49 @@ public class JrtFileSystemSample {
     void testReflectiveFileSystem() throws ClassNotFoundException, NoSuchMethodException,
             InvocationTargetException, IllegalAccessException {
         fs = new ReflectiveFileSystem();
-        listModuleContentReflective("java.base").forEach(System.out::println);
+        listModuleContentsReflective("java.base").forEach(System.out::println);
+        fs.listModules().forEach(System.out::println);
     }
 
-    public List<URI> listModuleContentReflective(String moduleName)
+    @Test
+    void testIsJrtFileSystemAvailalbe() {
+        assertThat(isJrtFileSystemAvailalbe()).isTrue();
+    }
+
+    @Test
+    void testGetResource() {
+        assertThat(getResource("META-INF/services/java.nio.file.spi.FileSystemProvider"))
+                .hasToString("jrt:/java.base/META-INF/services/java.nio.file.spi.FileSystemProvider");
+        assertThat(getResource("META-INF/servicesx/java.nio.file.spi.FileSystemProvider"))
+                .isNull();
+    }
+
+    private URL getResource(String name) {
+        String moduleName = "java.base";
+        URI uri = URI.create("jrt:/" + moduleName + "/" + name);
+        try {
+            URL url = uri.toURL();
+            return exists(url) ? url : null;
+        } catch (MalformedURLException ex) {
+            throw new IllegalArgumentException("Invalid resource name: " + name, ex);
+        }
+    }
+
+    private boolean exists(URL url) {
+        try {
+            InputStream in = url.openStream();
+            in.close();
+            return true;
+        } catch (IOException ex) {
+            return false;
+        }
+    }
+
+    private boolean isJrtFileSystemAvailalbe() {
+        return String.class.getResource("/module-info.class") != null;
+    }
+
+    public List<URI> listModuleContentsReflective(String moduleName)
             throws InvocationTargetException, IllegalAccessException {
         Object modulePath = fs.getModulePath(moduleName);
         List<URI> content = new ArrayList<>(2048);
@@ -97,8 +139,7 @@ public class JrtFileSystemSample {
 
     private void traverseReflective(Object dirPath, List<URI> content)
             throws InvocationTargetException, IllegalAccessException {
-        Iterable<Object> paths = fs.newDirectoryStream(dirPath);
-        for (Object path : paths) {
+        for (Object path : fs.newDirectoryStream(dirPath)) {
             if (fs.isDirectory(path)) {
                 traverseReflective(path, content);
             } else {
@@ -116,6 +157,7 @@ public class JrtFileSystemSample {
 
         private final Class<?> path;
         private final Method toUri;
+        private final Method getFileName;
 
         private final Class<?> files;
         private final Method newDirectoryStream;
@@ -136,6 +178,7 @@ public class JrtFileSystemSample {
 
             path = Class.forName("java.nio.file.Path");
             toUri = path.getMethod("toUri");
+            getFileName = path.getMethod("getFileName");
 
             files = Class.forName("java.nio.file.Files");
             newDirectoryStream = files.getMethod("newDirectoryStream", path);
@@ -161,6 +204,19 @@ public class JrtFileSystemSample {
 
         URI toUri(Object path) throws InvocationTargetException, IllegalAccessException {
             return (URI) toUri.invoke(path);
+        }
+
+        String getFileName(Object path) throws InvocationTargetException, IllegalAccessException {
+            return getFileName.invoke(path).toString();
+        }
+
+        List<String> listModules() throws InvocationTargetException, IllegalAccessException {
+            List<String> moduleNames = new ArrayList<String>(64);
+            Object modulesRoot = getPath.invoke(jrtFileSystem, "/modules", new String[0]);
+            for (Object module : newDirectoryStream(modulesRoot)) {
+                moduleNames.add(getFileName(module));
+            }
+            return moduleNames;
         }
     }
 }

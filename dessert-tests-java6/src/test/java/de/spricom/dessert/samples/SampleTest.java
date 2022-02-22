@@ -1,5 +1,6 @@
 package de.spricom.dessert.samples;
 
+import de.spricom.dessert.assertions.SimpleCycleRenderer;
 import de.spricom.dessert.slicing.Classpath;
 import org.junit.Test;
 
@@ -13,7 +14,9 @@ public class SampleTest {
     @Test
     public void detectCycle() {
         try {
-            dessert(cp.rootOf(Foo.class).getClazzes()).isCycleFree();
+            dessert(cp.rootOf(Foo.class).getClazzes())
+                    .renderCycleWith(new SimpleCycleRenderer())
+                    .isCycleFree();
             fail("No AssertionError");
         } catch (AssertionError er) {
             assertThat(er.getMessage().trim()).isEqualTo("Cycle:\n" +
@@ -39,6 +42,8 @@ public class SampleTest {
         } catch (AssertionError er) {
             assertThat(er.getMessage().trim()).isEqualTo("Illegal Dependencies:\n" +
                     "de.spricom.dessert.samples.SampleTest\n" +
+                    " -> de.spricom.dessert.assertions.CycleRenderer\n" +
+                    " -> de.spricom.dessert.assertions.SimpleCycleRenderer\n" +
                     " -> de.spricom.dessert.assertions.SliceAssert\n" +
                     " -> de.spricom.dessert.assertions.SliceAssertions\n" +
                     " -> de.spricom.dessert.slicing.Classpath\n" +

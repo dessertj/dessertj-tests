@@ -7,7 +7,9 @@ import de.spricom.dessert.modules.fixed.JavaModules;
 import de.spricom.dessert.modules.fixed.JdkModules;
 import de.spricom.dessert.slicing.Classpath;
 import de.spricom.dessert.slicing.Slice;
+import de.spricom.dessert.slicing.Slices;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static de.spricom.dessert.assertions.SliceAssertions.dessert;
@@ -25,8 +27,8 @@ public class JavaModulesTest {
     @Test
     void testListModules() {
         assertThat(mr.getModuleNames())
-                .contains("java.base", "org.junit.jupiter.api")
-                .hasSize(78);
+                .contains("java.base", "org.junit.jupiter.api", "org.assertj.core")
+                .hasSize(79);
     }
 
     @Test
@@ -34,5 +36,29 @@ public class JavaModulesTest {
         Slice thisPackage = cp.packageTreeOf(this.getClass());
         dessert(thisPackage).doesNotUse(java.management.rmi, java.compiler, jdk.compiler);
         dessert(thisPackage).usesOnly(java.base, junit, assertj, dessert);
+    }
+
+    @Test
+    void testNoInternalClasses() {
+        Slice internals = Slices.of(mr.getModules().stream().map(ModuleSlice::getInternals).toList());
+        dessert(cp.packageOf(this.getClass())).doesNotUse(internals);
+    }
+
+    @Disabled("will fill")
+    @Test
+    void detectUsageOfInternalClass() {
+        Slice internals = Slices.of(mr.getModules().stream().map(ModuleSlice::getInternals).toList());
+        dessert(cp.packageTreeOf(this.getClass())).doesNotUse(internals);
+    }
+
+    @Test
+    void testdetectUsageOfInternalClassFailure() {
+        try {
+            detectUsageOfInternalClass();
+        } catch (AssertionError er) {
+            assertThat(er.toString()).isEqualTo("java.lang.AssertionError: Illegal Dependencies:\n" +
+                    "de.spricom.dessert.samples.modules.illegal.UseInternal\n" +
+                    " -> jdk.internal.util.jar.JarIndex\n");
+        }
     }
 }

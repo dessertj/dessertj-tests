@@ -2,7 +2,7 @@ package de.spricom.dessert.tutorial;
 
 import de.spricom.dessert.classfile.attribute.AttributeInfo;
 import de.spricom.dessert.slicing.*;
-import org.apache.commons.lang3.tuple.Pair;
+import de.spricom.dessert.util.PermutationUtils;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.springframework.batch.item.ItemReader;
@@ -11,11 +11,9 @@ import reactor.core.publisher.Flux;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static de.spricom.dessert.assertions.SliceAssertions.dessert;
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class CyclesTest {
     private static final Classpath cp = new Classpath();
@@ -78,7 +76,9 @@ public class CyclesTest {
                 packages.remove("org.springframework.boot.autoconfigure.data.neo4j"),
                 packages.remove("org.springframework.boot.autoconfigure.jdbc"),
                 packages.remove("org.springframework.boot.autoconfigure.transaction"),
-                packages.remove("org.springframework.boot.autoconfigure.transaction.jta"));
+                packages.remove("org.springframework.boot.autoconfigure.transaction.jta"),
+                packages.remove("org.springframework.boot.autoconfigure.sql.init"),
+                packages.remove("org.springframework.boot.autoconfigure.r2dbc"));
 
         List<Slice> cycle6 = List.of(packages.remove("org.springframework.security.config.method"),
                 packages.remove("org.springframework.security.config"),
@@ -114,6 +114,17 @@ public class CyclesTest {
 
         List<Slice> cycle12 = List.of(packages.remove("org.springframework.batch.core.jsr.job.flow.support"),
                 packages.remove("org.springframework.batch.core.jsr.job.flow.support.state"));
+
+        List<Slice> cycle13 = List.of(packages.remove("org.springframework.boot.context.properties"),
+                packages.remove("org.springframework.boot"),
+                packages.remove("org.springframework.boot.context"),
+                packages.remove("org.springframework.boot.context.event"),
+                packages.remove("org.springframework.boot.diagnostics"),
+                packages.remove("org.springframework.boot.diagnostics.analyzer"),
+                packages.remove("org.springframework.boot.web.embedded.tomcat"),
+                packages.remove("org.springframework.boot.web.servlet.context"),
+                packages.remove("org.springframework.boot.web.servlet.server")
+        );
 
         Map<String, Slice> mergedPackages = new HashMap<>(packages);
         int i = 0;
@@ -159,7 +170,7 @@ public class CyclesTest {
     }
 
     private void investigateCycle(List<Slice> slices, Function<Clazz, String> name) {
-        permute(slices).forEach(p -> {
+        PermutationUtils.permute(slices).forEach(p -> {
             Slice l = p.getLeft();
             Slice r = p.getRight();
             if (l.uses(r)) {
@@ -200,37 +211,5 @@ public class CyclesTest {
             // ignore some Kotlin classes that can't be loaded through reflection
             return false;
         }
-    }
-
-    @Test
-    void testPairs() {
-        int n = 5;
-        List<Integer> ints = IntStream.rangeClosed(1, n).boxed().collect(Collectors.toList());
-        List<Pair<Integer, Integer>> perms = pairs(ints).collect(Collectors.toList());
-        for (var p : perms) {
-            System.out.printf("(%d,%d)%n", p.getLeft(), p.getRight());
-        }
-        int sz = 1 + 2 + 3 + 4;
-        assertThat(perms).hasSize(sz);
-        assertThat(perms.stream().map(p -> p.getLeft() + "/" + p.getRight()).collect(Collectors.toSet())).hasSize(sz);
-    }
-
-    private <X> Stream<Pair<X, X>> permute(List<X> list) {
-        return pairs(list).flatMap(p -> Stream.of(p, Pair.of(p.getRight(), p.getLeft())));
-    }
-
-    private <X> Stream<Pair<X, X>> pairs(List<X> list) {
-        int sz = list.size();
-        if (sz < 2) {
-            throw new IllegalArgumentException("sz = " + sz);
-        }
-        if (sz == 2) {
-            return Stream.of(Pair.of(list.get(0), list.get(1)));
-        }
-        X first = list.get(0);
-        Stream<Pair<X, X>> pairs = IntStream.range(1, sz)
-                .mapToObj(list::get)
-                .map(r -> Pair.of(first, r));
-        return Stream.concat(pairs, pairs(list.subList(1, sz)));
     }
 }

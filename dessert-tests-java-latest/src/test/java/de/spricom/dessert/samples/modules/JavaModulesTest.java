@@ -5,6 +5,7 @@ import de.spricom.dessert.modules.ModuleRegistry;
 import de.spricom.dessert.modules.core.ModuleSlice;
 import de.spricom.dessert.modules.fixed.JavaModules;
 import de.spricom.dessert.modules.fixed.JdkModules;
+import de.spricom.dessert.samples.modules.illegal.UseInternal;
 import de.spricom.dessert.slicing.Classpath;
 import de.spricom.dessert.slicing.Slice;
 import de.spricom.dessert.slicing.Slices;
@@ -33,9 +34,30 @@ public class JavaModulesTest {
 
     @Test
     void testUsages() {
-        Slice thisPackage = cp.packageTreeOf(this.getClass());
+        Slice useInternal = cp.sliceOf(UseInternal.class);
+        Slice thisPackage = cp.packageTreeOf(this.getClass()).minus(useInternal);
         dessert(thisPackage).doesNotUse(java.management.rmi, java.compiler, jdk.compiler);
+        dessert(thisPackage).usesOnly(java.base, junit, assertj, dessert, useInternal);
+    }
+
+    @Disabled("will fail")
+    @Test
+    void usagesWithInternal() {
+        Slice thisPackage = cp.packageTreeOf(this.getClass());
         dessert(thisPackage).usesOnly(java.base, junit, assertj, dessert);
+    }
+
+    @Test
+    void testUsagesWithInternalFailure() {
+        try {
+            usagesWithInternal();
+        } catch (AssertionError er) {
+            assertThat(er.toString()).isEqualTo("""
+                    java.lang.AssertionError: Illegal Dependencies:
+                    de.spricom.dessert.samples.modules.illegal.UseInternal
+                     -> jdk.internal.util.jar.JarIndex
+                    """);
+        }
     }
 
     @Test
@@ -44,7 +66,7 @@ public class JavaModulesTest {
         dessert(cp.packageOf(this.getClass())).doesNotUse(internals);
     }
 
-    @Disabled("will fill")
+    @Disabled("will fail")
     @Test
     void detectUsageOfInternalClass() {
         Slice internals = Slices.of(mr.getModules().stream().map(ModuleSlice::getInternals).toList());
@@ -52,13 +74,15 @@ public class JavaModulesTest {
     }
 
     @Test
-    void testdetectUsageOfInternalClassFailure() {
+    void testDetectUsageOfInternalClassFailure() {
         try {
             detectUsageOfInternalClass();
         } catch (AssertionError er) {
-            assertThat(er.toString()).isEqualTo("java.lang.AssertionError: Illegal Dependencies:\n" +
-                    "de.spricom.dessert.samples.modules.illegal.UseInternal\n" +
-                    " -> jdk.internal.util.jar.JarIndex\n");
+            assertThat(er.toString()).isEqualTo("""
+                    java.lang.AssertionError: Illegal Dependencies:
+                    de.spricom.dessert.samples.modules.illegal.UseInternal
+                     -> jdk.internal.util.jar.JarIndex
+                    """);
         }
     }
 }

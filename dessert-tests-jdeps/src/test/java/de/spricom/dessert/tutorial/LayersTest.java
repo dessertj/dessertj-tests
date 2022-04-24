@@ -5,6 +5,7 @@ import de.spricom.dessert.slicing.*;
 import de.spricom.dessert.util.CombinationUtils;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.engine.execution.JupiterEngineExecutionContext;
 
 import java.util.ArrayList;
 import java.util.SortedMap;
@@ -35,7 +36,7 @@ public class LayersTest {
 
     @Test
     void investigateJunitEngine() {
-        Root jupiter = cp.rootOf(cp.asClazz("org.junit.platform.launcher.Launcher").getRootFile());
+        Root jupiter = cp.rootOf(JupiterEngineExecutionContext.class);
         SortedMap<String, PackageSlice> packages = jupiter.partitionByPackage();
         CombinationUtils.combinations(new ArrayList<>(packages.keySet())).forEach(p -> {
             if (packages.get(p.getLeft()).uses(packages.get(p.getRight()))) {

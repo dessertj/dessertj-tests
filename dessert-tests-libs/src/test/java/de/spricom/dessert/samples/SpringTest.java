@@ -15,19 +15,14 @@ import static de.spricom.dessert.assertions.SliceAssertions.dessert;
 class SpringTest {
 
     private Classpath cp = new Classpath();
-    private Slice spring = cp.packageTreeOf("org.springframework..*");
+    private Slice springframework = cp.packageTreeOf("org.springframework..*");
 
     @Test
     void checkPackageCycles() {
-        SortedMap<String, PackageSlice> packages = spring
+        SortedMap<String, PackageSlice> packages = springframework
                 // remove known cycles
-                .minus(cp.slice("org.springframework.boot.autoconfigure..*"),
-                        cp.slice("org.springframework.boot.cloud.*"),
-                        cp.slice("org.springframework.data.jpa.repository.support.*"),
-                        cp.slice("org.springframework.boot.web.servlet.server.*"),
-                        cp.slice("org.springframework.cglib.core.*"),
-                        cp.slice("org.springframework.objenesis..*"),
-                        cp.slice("org.springframework.test..*"))
+                .minus("org.springframework.cglib|objenesis|boot|batch|data|test..*")
+                .minus("org.springframework.security.config..*")
                 .partitionByPackage();
         Assertions.assertThat(packages).hasSizeGreaterThan(10);
         dessert(packages).isCycleFree();

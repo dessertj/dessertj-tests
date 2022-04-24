@@ -3,8 +3,8 @@ package de.spricom.dessert.tutorial;
 import de.spricom.dessert.classfile.attribute.AttributeInfo;
 import de.spricom.dessert.slicing.*;
 import de.spricom.dessert.util.CombinationUtils;
-import org.junit.Before;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.engine.execution.JupiterEngineExecutionContext;
 
 import java.util.ArrayList;
 import java.util.SortedMap;
@@ -35,7 +35,7 @@ public class LayersTest {
 
     @Test
     void investigateJunitEngine() {
-        Root jupiter = cp.rootOf(cp.asClazz("org.junit.platform.launcher.Launcher").getRootFile());
+        Root jupiter = cp.rootOf(JupiterEngineExecutionContext.class);
         SortedMap<String, PackageSlice> packages = jupiter.partitionByPackage();
         CombinationUtils.combinations(new ArrayList<>(packages.keySet())).forEach(p -> {
             if (packages.get(p.getLeft()).uses(packages.get(p.getRight()))) {
@@ -53,9 +53,7 @@ public class LayersTest {
 
     @Test
     void listJunit5() {
-        Root junit4 = cp.rootOf(Before.class);
         Slice junit5 = cp.slice("org.junit..*")
-                .minus(junit4) // ignore old junit4 classes
                 .minus("..shadow..*") // shadow packages don't belong to junit itself
                 .minus(this::isDeprecated); // ignore deprecated classes
         dessert(junit5.partitionByPackage()).isCycleFree();

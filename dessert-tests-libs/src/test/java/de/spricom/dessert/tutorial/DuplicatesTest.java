@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.HamcrestCondition.matching;
-import static org.hamcrest.core.StringContains.containsString;
 import static org.hamcrest.core.StringStartsWith.startsWith;
 
 public class DuplicatesTest {
@@ -83,8 +82,7 @@ public class DuplicatesTest {
         // make sure there are no additional jars involved
         assertThat(duplicateJars.stream().map(File::getName))
                 .areAtLeast(2, matching(startsWith("jakarta.activation")))
-                .areAtLeast(2, matching(containsString("validation-api")))
-                .hasSize(4);
+                .hasSize(2);
 
         // make sure there are no additonal classes involved
         assertThat(duplicates

@@ -13,6 +13,8 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import java.util.TreeSet;
+
 import static de.spricom.dessert.assertions.SliceAssertions.dessert;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -27,9 +29,90 @@ public class JavaModulesTest {
 
     @Test
     void testListModules() {
+        if (false) {
+            new TreeSet<String>(mr.getModuleNames()).forEach(n -> System.out.printf("\"%s\",%n", n));
+        }
         assertThat(mr.getModuleNames())
-                .contains("java.base", "org.junit.jupiter.api", "org.assertj.core")
-                .hasSize(79);
+                .contains(
+                        "java.base",
+                        "java.compiler",
+                        "java.datatransfer",
+                        "java.desktop",
+                        "java.instrument",
+                        "java.logging",
+                        "java.management",
+                        "java.management.rmi",
+                        "java.naming",
+                        "java.net.http",
+                        "java.prefs",
+                        "java.rmi",
+                        "java.scripting",
+                        "java.se",
+                        "java.security.jgss",
+                        "java.security.sasl",
+                        "java.smartcardio",
+                        "java.sql",
+                        "java.sql.rowset",
+                        "java.transaction.xa",
+                        "java.xml",
+                        "java.xml.crypto",
+                        "jdk.accessibility",
+                        "jdk.attach",
+                        "jdk.charsets",
+                        "jdk.compiler",
+                        "jdk.crypto.cryptoki",
+                        "jdk.crypto.ec",
+                        "jdk.crypto.mscapi",
+                        "jdk.dynalink",
+                        "jdk.editpad",
+                        "jdk.hotspot.agent",
+                        "jdk.httpserver",
+                        "jdk.incubator.foreign",
+                        "jdk.incubator.vector",
+                        "jdk.internal.ed",
+                        "jdk.internal.jvmstat",
+                        "jdk.internal.le",
+                        "jdk.internal.opt",
+                        "jdk.internal.vm.ci",
+                        "jdk.internal.vm.compiler",
+                        "jdk.internal.vm.compiler.management",
+                        "jdk.jartool",
+                        "jdk.javadoc",
+                        "jdk.jcmd",
+                        "jdk.jconsole",
+                        "jdk.jdeps",
+                        "jdk.jdi",
+                        "jdk.jdwp.agent",
+                        "jdk.jfr",
+                        "jdk.jlink",
+                        "jdk.jpackage",
+                        "jdk.jshell",
+                        "jdk.jsobject",
+                        "jdk.jstatd",
+                        "jdk.localedata",
+                        "jdk.management",
+                        "jdk.management.agent",
+                        "jdk.management.jfr",
+                        "jdk.naming.dns",
+                        "jdk.naming.rmi",
+                        "jdk.net",
+                        "jdk.nio.mapmode",
+                        "jdk.random",
+                        "jdk.sctp",
+                        "jdk.security.auth",
+                        "jdk.security.jgss",
+                        "jdk.unsupported",
+                        "jdk.unsupported.desktop",
+                        "jdk.xml.dom",
+                        "jdk.zipfs",
+                        "org.apiguardian.api",
+                        "org.assertj.core",
+                        "org.junit.jupiter.api",
+                        "org.junit.jupiter.engine",
+                        "org.junit.platform.commons",
+                        "org.junit.platform.engine",
+                        "org.opentest4j"
+                );
     }
 
     @Test

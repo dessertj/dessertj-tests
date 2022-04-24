@@ -2,7 +2,7 @@ package de.spricom.dessert.tutorial;
 
 import de.spricom.dessert.classfile.attribute.AttributeInfo;
 import de.spricom.dessert.slicing.*;
-import de.spricom.dessert.util.PermutationUtils;
+import de.spricom.dessert.util.CombinationUtils;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.springframework.batch.item.ItemReader;
@@ -170,7 +170,7 @@ public class CyclesTest {
     }
 
     private void investigateCycle(List<Slice> slices, Function<Clazz, String> name) {
-        PermutationUtils.permute(slices).forEach(p -> {
+        CombinationUtils.combinations(slices).forEach(p -> {
             Slice l = p.getLeft();
             Slice r = p.getRight();
             if (l.uses(r)) {

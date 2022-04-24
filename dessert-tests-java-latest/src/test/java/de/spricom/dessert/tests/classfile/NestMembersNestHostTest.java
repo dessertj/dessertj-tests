@@ -1,11 +1,10 @@
 package de.spricom.dessert.tests.classfile;
 
 import de.spricom.dessert.classfile.ClassFile;
-import de.spricom.dessert.classfile.attribute.AttributeInfo;
-import de.spricom.dessert.classfile.attribute.Attributes;
-import de.spricom.dessert.classfile.attribute.NestHostAttribute;
-import de.spricom.dessert.classfile.attribute.NestMembersAttribute;
+import de.spricom.dessert.classfile.attribute.*;
 import de.spricom.dessert.samples.nesting.Car;
+import de.spricom.dessert.slicing.Classpath;
+import de.spricom.dessert.slicing.Clazz;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -56,6 +55,40 @@ public class NestMembersNestHostTest {
                 System.out.println("*** " + member + " ***");
                 System.out.println(memberCF.dump());
             }
+        }
+    }
+
+    @Disabled
+    @Test
+    void dumpNesting() {
+        Classpath cp = new Classpath();
+        cp.packageOf(Car.class).getClazzes().forEach(this::dump);
+    }
+    private void dump(Clazz clazz) {
+        ClassFile classFile = clazz.getClassFile();
+        System.out.println("\n=== " + classFile.getThisClass() + " ===");
+        List<NestMembersAttribute> membersAttributes = Attributes.filter(classFile.getAttributes(), NestMembersAttribute.class);
+        if (!membersAttributes.isEmpty()) {
+            System.out.println("members:");
+            for (NestMembersAttribute nestMembersAttribute : membersAttributes) {
+                for (String member : nestMembersAttribute.getMembers()) {
+                    System.out.println("\t" + member);
+                }
+            }
+        }
+        List<NestHostAttribute> hostAttributes = Attributes.filter(classFile.getAttributes(), NestHostAttribute.class);
+        for (NestHostAttribute hostAttribute : hostAttributes) {
+            System.out.println("host: " + hostAttribute.getHostClassName());
+        }
+        List<InnerClassesAttribute> innerClassesAttributes = Attributes.filter(classFile.getAttributes(), InnerClassesAttribute.class);
+        for (InnerClassesAttribute innerClassesAttribute : innerClassesAttributes) {
+            for (InnerClass innerClass : innerClassesAttribute.getInnerClasses()) {
+                System.out.println("inner-class: " + innerClass);
+            }
+        }
+        List<EnclosingMethodAttribute> enclosingMethodAttributes = Attributes.filter(classFile.getAttributes(), EnclosingMethodAttribute.class);
+        for (EnclosingMethodAttribute enclosingMethodAttribute : enclosingMethodAttributes) {
+            System.out.println(enclosingMethodAttribute);
         }
     }
 

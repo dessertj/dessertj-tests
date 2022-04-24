@@ -2,10 +2,21 @@ package de.spricom.dessert.samples.nesting;
 
 public class Car {
 
+    @FunctionalInterface
+    public interface Action {
+        void go();
+    }
+
     public class Engine {
 
         public class Carburetor {
-            public void consume(double gas) {
+            public void consume(double gas, Action pipe) {
+                new Action() {
+                    @Override
+                    public void go() {
+                        pipe.go();
+                    }
+                }.go();
                 Engine.this.burn(gas);
             }
         }
@@ -25,6 +36,10 @@ public class Car {
         }
     }
 
+    class Mirror$1$Left {
+
+    }
+
     interface Window {
 
     }
@@ -34,6 +49,7 @@ public class Car {
     }
 
     private final Window frontWindow = new Window() {};
+    private final Mirror$1$Left mirror = new Mirror$1$Left();
     private final Engine engine;
 
     public Car() {
@@ -50,7 +66,7 @@ public class Car {
         record Control(Engine engine, Gearing gearing, Wheel... wheels) {}
 
         Control control = new Control(engine, engine.gearing, engine.gearing.wheels);
-        control.engine.carburetor.consume(2.0);
+        control.engine.carburetor.consume(2.0, () -> System.out.print("."));
     }
 
     public static void main(String[] args) {

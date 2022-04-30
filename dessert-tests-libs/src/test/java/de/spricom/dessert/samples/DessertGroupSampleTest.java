@@ -1,9 +1,9 @@
 package de.spricom.dessert.samples;
 
 import de.spricom.dessert.assertions.SliceAssertions;
+import de.spricom.dessert.partitioning.ClazzPredicates;
 import de.spricom.dessert.slicing.Classpath;
 import de.spricom.dessert.slicing.PackageSlice;
-import de.spricom.dessert.slicing.Root;
 import de.spricom.dessert.slicing.Slice;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class DessertGroupSampleTest {
     private final Classpath cp = new Classpath();
-    private final Root dessert = cp.rootOf(Slice.class);
+    private final Slice dessert = cp.rootOf(Slice.class).minus(ClazzPredicates.DEPRECATED);
 
     @Test
     void testPackagesNotEmpty() {

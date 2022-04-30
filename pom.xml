@@ -10,11 +10,12 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>dessert-tests-jdeps</module>
         <module>dessert-tests-java-latest</module>
-        <module>dessert-tests-java6</module>
         <module>dessert-tests-libs</module>
+        <module>dessert-tests-java8</module>
+        <module>dessert-tests-java6</module>
         <module>dessert-tests-modules-parent</module>
+        <module>dessert-tests-jdeps</module>
     </modules>
 
     <properties>

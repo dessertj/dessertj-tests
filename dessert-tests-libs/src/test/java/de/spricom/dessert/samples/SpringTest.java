@@ -14,8 +14,8 @@ import static de.spricom.dessert.assertions.SliceAssertions.dessert;
 
 class SpringTest {
 
-    private Classpath cp = new Classpath();
-    private Slice springframework = cp.packageTreeOf("org.springframework..*");
+    private final Classpath cp = new Classpath();
+    private final Slice springframework = cp.packageTreeOf("org.springframework..*");
 
     @Test
     void checkPackageCycles() {
@@ -23,6 +23,7 @@ class SpringTest {
                 // remove known cycles
                 .minus("org.springframework.cglib|objenesis|boot|batch|data|test..*")
                 .minus("org.springframework.security.config..*")
+                .minus("org.springframework.security.authorization.event..*")
                 .partitionByPackage();
         Assertions.assertThat(packages).hasSizeGreaterThan(10);
         dessert(packages).isCycleFree();

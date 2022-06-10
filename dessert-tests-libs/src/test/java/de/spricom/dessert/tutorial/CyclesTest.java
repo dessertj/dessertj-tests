@@ -20,15 +20,6 @@ public class CyclesTest {
     private static final Classpath cp = new Classpath();
 
     @Test
-    void investigateSpringFrameworkPackageCycles() {
-        Slice springframework = cp.slice("org.springframework..*")
-                .minus("org.springframework.cglib|objenesis|boot|batch|data|test..*")
-                .minus("org.springframework.security.config..*");
-        SortedMap<String, PackageSlice> packages = springframework.partitionByPackage();
-        dessert(packages).isCycleFree();
-    }
-
-    @Test
     void investigateSpringBatchInfrastructureCycles() {
         SortedMap<String, PackageSlice> packages = cp.rootOf(ItemReader.class)
                 .minus(this::isDeprecated)

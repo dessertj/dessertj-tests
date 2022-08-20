@@ -16,6 +16,8 @@
         <module>dessert-tests-java6</module>
         <module>dessert-tests-modules-parent</module>
         <module>dessert-tests-jdeps</module>
+        <module>dessert-tests-java11</module>
+        <module>dessert-tests-java17</module>
     </modules>
 
     <properties>

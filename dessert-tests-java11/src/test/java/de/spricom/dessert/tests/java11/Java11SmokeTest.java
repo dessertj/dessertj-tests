@@ -1,4 +1,4 @@
-package de.spricom.dessert.tests.java8;
+package de.spricom.dessert.tests.java11;
 
 import de.spricom.dessert.modules.ModuleRegistry;
 import de.spricom.dessert.modules.core.ModuleSlice;
@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 import static de.spricom.dessert.assertions.SliceAssertions.dessert;
 
 
-public class SmokeTest {
+public class Java11SmokeTest {
     private static final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
     private static final Classpath cp = new Classpath();
     private static final ModuleRegistry mr = new ModuleRegistry(cp);

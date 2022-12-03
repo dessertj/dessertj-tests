@@ -16,7 +16,7 @@ public final class SwitchSamples {
     public static double asDouble(Object o) {
         return switch (o) {
             case Number n -> n.doubleValue();
-            case String s && s.length() > 0 -> Double.parseDouble(s);
+            case String s when s.length() > 0 -> Double.parseDouble(s);
             case null -> 0.0;
             default ->  Double.NaN;
         };

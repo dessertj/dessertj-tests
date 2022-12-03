@@ -30,7 +30,7 @@ public class JavaModulesTest {
     @Test
     void testListModules() {
         if (false) {
-            new TreeSet<String>(mr.getModuleNames()).forEach(n -> System.out.printf("\"%s\",%n", n));
+            new TreeSet<>(mr.getModuleNames()).forEach(n -> System.out.printf("\"%s\",%n", n));
         }
         assertThat(mr.getModuleNames())
                 .contains(
@@ -67,7 +67,6 @@ public class JavaModulesTest {
                         "jdk.editpad",
                         "jdk.hotspot.agent",
                         "jdk.httpserver",
-                        "jdk.incubator.foreign",
                         "jdk.incubator.vector",
                         "jdk.internal.ed",
                         "jdk.internal.jvmstat",

@@ -62,7 +62,7 @@ public class JavaModulesTest {
                         "jdk.compiler",
                         "jdk.crypto.cryptoki",
                         "jdk.crypto.ec",
-                        "jdk.crypto.mscapi",
+                        // "jdk.crypto.mscapi", (only available on windows)
                         "jdk.dynalink",
                         "jdk.editpad",
                         "jdk.hotspot.agent",

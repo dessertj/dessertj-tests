@@ -28,8 +28,8 @@
                         <arg>--add-exports</arg>
                         <arg>java.base/jdk.internal.util.jar=ALL-UNNAMED</arg>
                     </compilerArgs>
-                    <source>19</source>
-                    <target>19</target>
+                    <source>20</source>
+                    <target>20</target>
                 </configuration>
             </plugin>
             <plugin>

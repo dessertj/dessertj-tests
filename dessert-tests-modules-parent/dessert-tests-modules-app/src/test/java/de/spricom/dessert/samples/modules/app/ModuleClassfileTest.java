@@ -2,7 +2,7 @@ package de.spricom.dessert.samples.modules.app;
 
 import de.spricom.dessert.classfile.ClassFile;
 import de.spricom.dessert.samples.modules.lib.Greeter;
-import de.spricom.dessert.samples.modules.lib2.magic.MagicService;
+import de.spricom.dessert.samples.modules.libb.magic.MagicService;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;

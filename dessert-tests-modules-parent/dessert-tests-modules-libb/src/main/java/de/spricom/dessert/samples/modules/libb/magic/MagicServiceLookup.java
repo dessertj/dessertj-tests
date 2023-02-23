@@ -1,4 +1,4 @@
-package de.spricom.dessert.samples.modules.lib2.magic;
+package de.spricom.dessert.samples.modules.libb.magic;
 
 import java.util.Iterator;
 import java.util.ServiceLoader;

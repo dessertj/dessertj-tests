@@ -1,4 +1,4 @@
-package de.spricom.dessert.samples.modules.lib2;
+package de.spricom.dessert.samples.modules.libb;
 
 public interface DateProvider {
 

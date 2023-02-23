@@ -14,7 +14,7 @@
 
     <modules>
         <module>dessert-tests-modules-lib</module>
-        <module>dessert-tests-modules-lib2</module>
+        <module>dessert-tests-modules-libb</module>
         <module>dessert-tests-modules-app</module>
     </modules>
 

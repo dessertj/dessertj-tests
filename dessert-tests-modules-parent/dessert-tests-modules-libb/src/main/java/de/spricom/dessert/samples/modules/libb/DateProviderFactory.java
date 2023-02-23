@@ -1,6 +1,6 @@
-package de.spricom.dessert.samples.modules.lib2;
+package de.spricom.dessert.samples.modules.libb;
 
-import de.spricom.dessert.samples.modules.lib2.internal.DataProviderImpl;
+import de.spricom.dessert.samples.modules.libb.internal.DataProviderImpl;
 
 public final class DateProviderFactory {
 

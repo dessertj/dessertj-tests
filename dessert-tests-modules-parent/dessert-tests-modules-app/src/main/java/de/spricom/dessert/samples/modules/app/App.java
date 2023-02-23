@@ -1,8 +1,8 @@
 package de.spricom.dessert.samples.modules.app;
 
 import de.spricom.dessert.samples.modules.lib.Greeter;
-import de.spricom.dessert.samples.modules.lib2.magic.MagicService;
-import de.spricom.dessert.samples.modules.lib2.magic.MagicServiceLookup;
+import de.spricom.dessert.samples.modules.libb.magic.MagicService;
+import de.spricom.dessert.samples.modules.libb.magic.MagicServiceLookup;
 
 public class App {
 

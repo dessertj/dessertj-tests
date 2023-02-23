@@ -1,6 +1,6 @@
-package de.spricom.dessert.samples.modules.lib2.magic.buz;
+package de.spricom.dessert.samples.modules.libb.magic.buz;
 
-import de.spricom.dessert.samples.modules.lib2.magic.MagicService;
+import de.spricom.dessert.samples.modules.libb.magic.MagicService;
 
 public class BuzService implements MagicService {
     @Override

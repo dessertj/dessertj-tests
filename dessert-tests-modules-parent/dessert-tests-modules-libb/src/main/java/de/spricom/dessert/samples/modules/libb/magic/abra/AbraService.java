@@ -1,6 +1,6 @@
-package de.spricom.dessert.samples.modules.lib2.magic.abra;
+package de.spricom.dessert.samples.modules.libb.magic.abra;
 
-import de.spricom.dessert.samples.modules.lib2.magic.MagicService;
+import de.spricom.dessert.samples.modules.libb.magic.MagicService;
 
 public class AbraService implements MagicService {
     @Override

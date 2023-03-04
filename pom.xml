@@ -6,7 +6,7 @@
 
     <groupId>de.spricom.dessert</groupId>
     <artifactId>dessert-tests-parent</artifactId>
-    <version>0.5.6-SNAPSHOT</version>
+    <version>0.5.7-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -36,7 +36,7 @@
             <dependency>
                 <groupId>de.spricom.dessert</groupId>
                 <artifactId>dessert-core</artifactId>
-                <version>0.5.6-SNAPSHOT</version>
+                <version>0.5.7-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.logging.log4j</groupId>

@@ -3,4 +3,4 @@
 This repository contains tests and samples for
 the https://github.com/hajo70/dessert-core[dessert-core] library.
 
-For more information see https://dessert.spricom.de/[dessert.spricom.de].
+For more information see https://dessertj.org/[dessertj.org].

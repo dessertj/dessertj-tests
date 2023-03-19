@@ -1,6 +1,6 @@
 = Dessert Tests and Samples
 
 This repository contains tests and samples for
-the https://github.com/hajo70/dessert-core[dessert-core] library.
+the https://github.com/hajo70/dessertj-core[dessertj-core] library.
 
 For more information see https://dessertj.org/[dessertj.org].

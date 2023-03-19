@@ -57,7 +57,8 @@ public class LayersTest {
                 .minus("..shadow..*") // shadow packages don't belong to junit itself
                 .minus(this::isDeprecated); // ignore deprecated classes
         dessert(junit5.partitionByPackage()).isCycleFree();
-        junit5.getClazzes().stream().sorted().forEach(c -> System.out.printf("%s: %s%n", c.getRootFile().getName(), c.getName()));
+        junit5.getClazzes().stream().sorted().forEach(c ->
+                System.out.printf("%s: %s%n", c.getRoot().getRootFile().getName(), c.getName()));
     }
 
     private boolean isDeprecated(Clazz clazz) {

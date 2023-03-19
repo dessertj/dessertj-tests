@@ -6,6 +6,7 @@ import org.dessertj.classfile.MethodInfo;
 import org.dessertj.classfile.attribute.AttributeInfo;
 import org.dessertj.slicing.Classpath;
 import org.dessertj.slicing.Clazz;
+import org.dessertj.slicing.Root;
 import org.dessertj.slicing.Slice;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
@@ -33,14 +34,16 @@ public class DuplicatesTest {
         Slice duplicates = cp.duplicates().minus("module-info");
 
         List<File> duplicateJars = duplicates.getClazzes().stream()
-                .map(Clazz::getRootFile).distinct()
+                .map(Clazz::getRoot)
+                .map(Root::getRootFile)
+                .distinct()
                 .sorted(Comparator.comparing(File::getName))
                 .collect(Collectors.toList());
 
-        Map<String, Set<File>> duplicateJarsByClass = duplicates.getClazzes().stream()
+        Map<String, Set<Root>> duplicateJarsByClass = duplicates.getClazzes().stream()
                 .collect(Collectors.groupingBy(Clazz::getName,
                         TreeMap::new,
-                        Collectors.mapping(Clazz::getRootFile, Collectors.toSet())));
+                        Collectors.mapping(Clazz::getRoot, Collectors.toSet())));
 
         StringWriter sw = new StringWriter();
         try (PrintWriter pw = new PrintWriter(sw)) {
@@ -48,7 +51,11 @@ public class DuplicatesTest {
                     duplicateJarsByClass.size(), duplicateJars.size());
             pw.println("\nDuplicate classes:");
             duplicateJarsByClass.forEach((name, files) -> pw.printf("%s (%s)%n", name,
-                    files.stream().map(File::getName).sorted().collect(Collectors.joining(", "))));
+                    files.stream()
+                            .map(Root::getRootFile)
+                            .map(File::getName)
+                            .sorted()
+                            .collect(Collectors.joining(", "))));
             pw.println("\nJARs containing duplicates:");
             duplicateJars.forEach(jar -> pw.printf("%s%n", jar.getName()));
         }
@@ -62,20 +69,26 @@ public class DuplicatesTest {
         Slice duplicates = cp.duplicates().minus("module-info");
 
         List<File> duplicateJars = duplicates.getClazzes().stream()
-                .map(Clazz::getRootFile).distinct()
+                .map(Clazz::getRoot)
+                .map(Root::getRootFile)
+                .distinct()
                 .sorted(Comparator.comparing(File::getName))
                 .collect(Collectors.toList());
 
-        Map<String, Set<File>> duplicateJarsByClass = duplicates.getClazzes().stream()
+        Map<String, Set<Root>> duplicateJarsByClass = duplicates.getClazzes().stream()
                 .collect(Collectors.groupingBy(Clazz::getName,
                         TreeMap::new,
-                        Collectors.mapping(Clazz::getRootFile, Collectors.toSet())));
+                        Collectors.mapping(Clazz::getRoot, Collectors.toSet())));
 
         System.out.printf("There are %d duplicate classes spread over %d jars:%n",
                 duplicateJarsByClass.size(), duplicateJars.size());
         System.out.println("\nDuplicate classes:");
         duplicateJarsByClass.forEach((name, files) -> System.out.printf("%s (%s)%n", name,
-                files.stream().map(File::getName).sorted().collect(Collectors.joining(", "))));
+                files.stream()
+                        .map(Root::getRootFile)
+                        .map(File::getName)
+                        .sorted()
+                        .collect(Collectors.joining(", "))));
         System.out.println("\nJARs containing duplicates:");
         duplicateJars.forEach(jar -> System.out.printf("%s%n", jar.getName()));
 

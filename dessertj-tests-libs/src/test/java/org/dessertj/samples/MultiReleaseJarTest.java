@@ -18,7 +18,7 @@ public class MultiReleaseJarTest {
         Root log4j = clazz.getRoot();
 
         assertThat(clazz.getAlternatives()).hasSize(2);
-        assertThat(clazz.getAlternatives().stream().map(Clazz::getMinVersion)).containsOnly(null, "9");
+        assertThat(clazz.getAlternatives().stream().map(Clazz::getVersion)).containsOnly(null, 9);
         assertThat(log4j.slice(Base64Util.class.getName()).getClazzes()).hasSize(2);
         assertThat(cp.slice(Base64Util.class.getName()).getClazzes()).hasSize(2);
     }

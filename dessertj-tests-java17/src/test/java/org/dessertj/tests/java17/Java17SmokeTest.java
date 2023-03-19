@@ -37,7 +37,7 @@ public class Java17SmokeTest {
 
     @Test
     void checkOldVariant() {
-        Classpath oldcp = new Classpath(ClassResolver.ofClassPathAndBootClassPath());
+        Classpath oldcp = new Classpath(ClassResolver.ofClassPathAndJavaRuntime());
 
         Slice junit = oldcp.rootOf(Test.class);
         Slice dessert = oldcp.rootOf(Slice.class);

@@ -6,7 +6,7 @@
 
     <groupId>org.dessertj</groupId>
     <artifactId>dessertj-tests-java-latest</artifactId>
-    <version>0.6.0-SNAPSHOT</version>
+    <version>0.6.1-SNAPSHOT</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -47,7 +47,7 @@
         <dependency>
             <groupId>org.dessertj</groupId>
             <artifactId>dessertj-core</artifactId>
-            <version>0.6.0-SNAPSHOT</version>
+            <version>0.6.1-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
 

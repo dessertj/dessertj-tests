@@ -1,6 +1,6 @@
 package org.dessertj.samples;
 
-import com.sun.xml.bind.v2.runtime.unmarshaller.Base64Data;
+import org.glassfish.jaxb.runtime.v2.runtime.unmarshaller.Base64Data;
 import org.dessertj.slicing.Classpath;
 import org.dessertj.slicing.Clazz;
 import org.junit.jupiter.api.Test;
@@ -20,13 +20,15 @@ public class DetectingUsageOfInternalClassesTest {
         Clazz me = cp.asClazz(this.getClass());
 
         try {
-            dessert(me).usesNot(cp.slice("..sun..*"));
+            dessert(me).usesNot(cp.slice("..jaxb.runtime..*"));
             throw new IllegalStateException("Usage of internal class not detected."); // Cannot throw AssertionError here
         } catch (AssertionError er) {
             System.out.println(er.getMessage());
-            assertThat(er.getMessage().trim()).isEqualToNormalizingWhitespace("Illegal Dependencies:\n" +
-                    "org.dessertj.samples.DetectingUsageOfInternalClassesTest\n" +
-                    " -> com.sun.xml.bind.v2.runtime.unmarshaller.Base64Data\n");
+            assertThat(er.getMessage().trim()).isEqualToNormalizingWhitespace("""
+                    Illegal Dependencies:
+                    org.dessertj.samples.DetectingUsageOfInternalClassesTest
+                     -> org.glassfish.jaxb.runtime.v2.runtime.unmarshaller.Base64Data
+                    """);
         }
     }
 }

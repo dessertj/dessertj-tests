@@ -12,17 +12,12 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import java.io.*;
 import java.util.*;
 import java.util.function.BiPredicate;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.HamcrestCondition.matching;
-import static org.hamcrest.core.StringStartsWith.startsWith;
 
 public class DuplicatesTest {
     private static final Classpath cp = new Classpath();
@@ -38,7 +33,7 @@ public class DuplicatesTest {
                 .map(Root::getRootFile)
                 .distinct()
                 .sorted(Comparator.comparing(File::getName))
-                .collect(Collectors.toList());
+                .toList();
 
         Map<String, Set<Root>> duplicateJarsByClass = duplicates.getClazzes().stream()
                 .collect(Collectors.groupingBy(Clazz::getName,
@@ -92,15 +87,11 @@ public class DuplicatesTest {
         System.out.println("\nJARs containing duplicates:");
         duplicateJars.forEach(jar -> System.out.printf("%s%n", jar.getName()));
 
-        // make sure there are no additional jars involved
-        assertThat(duplicateJars.stream().map(File::getName))
-                .areAtLeast(2, matching(startsWith("jakarta.activation")))
-                .hasSize(2);
+        // make sure there are no jars involved
+        assertThat(duplicateJars).isEmpty();
 
-        // make sure there are no additonal classes involved
-        assertThat(duplicates
-                .minus("javax.activation|validation|annotation..*")
-                .getClazzes()).isEmpty();
+        // make sure there are no classes involved
+        assertThat(duplicates.getClazzes()).isEmpty();
     }
 
     @Test
@@ -123,9 +114,10 @@ public class DuplicatesTest {
     }
 
     private boolean isSameBinaryContent(Clazz c1, Clazz c2) {
-        try {
-            byte[] bin1 = c1.getURI().toURL().openStream().readAllBytes();
-            byte[] bin2 = c2.getURI().toURL().openStream().readAllBytes();
+        try (InputStream is1 = c1.getURI().toURL().openStream();
+             InputStream is2 = c2.getURI().toURL().openStream()) {
+            byte[] bin1 = is1.readAllBytes();
+            byte[] bin2 = is2.readAllBytes();
             return Arrays.equals(bin1, bin2);
         } catch (IOException ex) {
             throw new IllegalStateException("Cannot compare duplicates of " + c1.getName());

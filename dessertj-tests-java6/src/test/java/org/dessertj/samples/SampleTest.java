@@ -2,8 +2,10 @@ package org.dessertj.samples;
 
 import org.dessertj.assertions.SimpleCycleRenderer;
 import org.dessertj.slicing.Classpath;
+import org.dessertj.slicing.Slice;
 import org.junit.Test;
 
+import static org.dessertj.assertions.SliceAssertions.assertThatSlice;
 import static org.dessertj.assertions.SliceAssertions.dessert;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.fest.assertions.Fail.fail;
@@ -71,5 +73,13 @@ public class SampleTest {
                     "org.dessertj.samples.Baz\n" +
                     " -> java.io.PrintStream");
         }
+    }
+
+    // Sample used by dessert-core README.adoc
+    @Test
+    public void detectUsageOfJdkInternalApis() {
+        Slice myCompanyCode = cp.slice("de.spricom..*");
+        Slice jdkInternalApis = cp.slice("sun..*").plus(cp.slice("com.sun..*"));
+        assertThatSlice(myCompanyCode).doesNotUse(jdkInternalApis);
     }
 }

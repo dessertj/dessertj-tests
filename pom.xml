@@ -18,6 +18,7 @@
         <module>dessertj-tests-jdeps</module>
         <module>dessertj-tests-java11</module>
         <module>dessertj-tests-java17</module>
+        <module>dessertj-tests-java21</module>
     </modules>
 
     <properties>

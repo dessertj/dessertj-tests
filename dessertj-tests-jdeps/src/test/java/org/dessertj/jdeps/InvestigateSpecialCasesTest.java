@@ -5,7 +5,7 @@ import org.assertj.core.api.AbstractObjectAssert;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.support.BeanDefinitionDsl;
-import org.springframework.security.config.web.servlet.OAuth2ClientDsl;
+import org.springframework.security.config.annotation.web.OAuth2ClientDsl;
 
 import java.io.IOException;
 import java.net.URL;

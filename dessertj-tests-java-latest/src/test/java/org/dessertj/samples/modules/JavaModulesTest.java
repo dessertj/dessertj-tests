@@ -137,7 +137,7 @@ public class JavaModulesTest {
             assertThat(er.toString()).isEqualTo("""
                     java.lang.AssertionError: Illegal Dependencies:
                     org.dessertj.samples.modules.illegal.UseInternal
-                     -> jdk.internal.util.jar.JarIndex
+                     -> org.dessertj.classfile.constpool.ConstantPool
                     """);
         }
     }
@@ -163,7 +163,7 @@ public class JavaModulesTest {
             assertThat(er.toString()).isEqualTo("""
                     java.lang.AssertionError: Illegal Dependencies:
                     org.dessertj.samples.modules.illegal.UseInternal
-                     -> jdk.internal.util.jar.JarIndex
+                     -> org.dessertj.classfile.constpool.ConstantPool
                     """);
         }
     }

@@ -21,7 +21,7 @@ public class ClasspathLoadTest {
                 .sorted()
                 .distinct()
                 .toList();
-        assertThat(libs).hasSize(2);
+        assertThat(libs).hasSize(4);
     }
 
     @Test

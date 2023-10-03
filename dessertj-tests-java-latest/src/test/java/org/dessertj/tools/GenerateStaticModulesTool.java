@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class GenerateStaticModulesTool {
     private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
-    // -Dtarget.src.dir=C:\Code\git\dessert\dessertj-core\src\main\java
+    // -Dtarget.src.dir=/home/hjhessmann/code/dessertj/dessertj-core/src/main/java
     private static final String SRC = System.getProperty("target.src.dir", "target/generated-sources");
     private static final Path DIR = Path.of(SRC, "org.dessertj.modules".split("\\."));
 

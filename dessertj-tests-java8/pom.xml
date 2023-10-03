@@ -13,6 +13,7 @@
 
     <properties>
         <java.version>8</java.version>
+        <spring.boot.version>2.7.16</spring.boot.version>
     </properties>
 
     <dependencyManagement>
@@ -84,7 +85,8 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <configuration combine.self="override">
+                <configuration>
+                    <release combine.self="override"></release>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                 </configuration>

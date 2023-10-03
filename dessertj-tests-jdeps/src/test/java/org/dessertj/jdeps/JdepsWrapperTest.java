@@ -29,7 +29,11 @@ public class JdepsWrapperTest {
 
     @Test
     void testAnalyze() throws IOException, InterruptedException {
-        wrapper.addOptions("--multi-release", "base");
+        wrapper.addOptions("--multi-release", "21");
+        wrapper.addOptions("--ignore-missing-deps");
+        wrapper.addOptions("--no-recursive");
+        wrapper.addOptions("--compile-time");
+        wrapper.setClassPathOption("--module-path");
         JdepsResult result = wrapper.analyze(getClassesDirectory());
         Set<String> resultDependencies = result.getDependencies(JdepsResult.class.getName());
 

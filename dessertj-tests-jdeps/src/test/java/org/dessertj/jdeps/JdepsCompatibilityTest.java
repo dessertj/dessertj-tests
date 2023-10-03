@@ -33,8 +33,13 @@ public class JdepsCompatibilityTest implements ClassVisitor {
     private final Map<String, Integer> additonalDependenciesCounters = new HashMap<>();
 
     @BeforeEach
-    public void init() {
-        wrapper.addOptions("--multi-release", "base");
+    public void init() throws IOException, InterruptedException {
+        String version = wrapper.getJdepsVersion();
+        System.out.println("jdeps-version: " + version);
+        wrapper.addOptions("--multi-release", "21");
+        wrapper.addOptions("--ignore-missing-deps");
+        wrapper.addOptions("--no-recursive");
+        wrapper.addOptions("--compile-time");
         wrapper.setClassPathOption("--module-path");
     }
 
@@ -145,7 +150,7 @@ public class JdepsCompatibilityTest implements ClassVisitor {
 
     private void handleDiff(String name, ClassFile cf, Set<String> cfdeps, Set<String> jdeps) {
         Set<String> diff = Sets.difference(cfdeps, jdeps);
-        log.info(() -> "Dessert found additional dependencies for " + name + ":\n" + String.join("\n", diff));
+        log.info(() -> "DessertJ found additional dependencies for " + name + ":\n" + String.join("\n", diff));
         if (name.contains("module-info[")) {
             // jdeps ignores dependencies of module-info classes
             return;

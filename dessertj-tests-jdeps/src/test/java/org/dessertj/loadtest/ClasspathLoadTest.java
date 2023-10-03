@@ -6,7 +6,6 @@ import org.dessertj.slicing.Root;
 import org.dessertj.slicing.Slice;
 import org.junit.jupiter.api.Test;
 
-import static com.helger.commons.collection.ArrayHelper.forEach;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.dessertj.assertions.SliceAssertions.dessert;
 

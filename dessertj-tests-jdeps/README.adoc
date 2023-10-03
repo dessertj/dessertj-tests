@@ -2,9 +2,8 @@
 
 This module compares the dependencies determined by _dessertj-core_
 with those found by the `jdeps` tool which is part of the JDK.
-Therefore this module a has a lot of test dependencies.
+Therefore this module has a lot of test dependencies.
 
-For each class within the test dependencies _dessertj-core_ and `jdeps`
-determine the the same class-dependencies, except some corner cases
-mentioned below:
-
+For each class within the test dependencies _dessertj-core_ determines
+all class dependencies `jdeps` finds. For some corner cases the
+reverse is not true.

@@ -20,11 +20,10 @@ public class JdepsWrapper {
     private static final Logger log = LogManager.getLogger(JdepsWrapper.class);
 
     // The '-' appears in package-info.class, '$' is required for inner classes.
-    private static final Pattern SRC_REGEX = Pattern.compile("^\\s+([\\w.$-]+)\\s+.*");
-    private static final Pattern DEST_REGEX = Pattern.compile("^.*-> ([\\w.$]+)\\s+.*$");
+    private static final Pattern LINE_REGEX = Pattern.compile("^\\s+([\\w.$-]+)\\s+-> ([\\w.$]+)\\s+.*$");
 
     private String classPath = System.getProperty("java.class.path");
-    private String classPathOption = "-cp";
+    private String classPathOption = "--class-path";
     private String jdepsCommand = System.getProperty("jdeps.command", "jdeps");
     private List<String> options = new ArrayList<>(Arrays.asList("-verbose:class", "-filter:none"));
 
@@ -71,13 +70,10 @@ public class JdepsWrapper {
         String currentClass = "none";
         while ((line = in.readLine()) != null) {
             dump.append(line).append("\n");
-            Matcher src = SRC_REGEX.matcher(line);
-            if (src.matches()) {
-                currentClass = src.group(1);
-            }
-            Matcher dest = DEST_REGEX.matcher(line);
-            if (dest.matches()) {
-                String dependentClass = dest.group(1);
+            Matcher matcher = LINE_REGEX.matcher(line);
+            if (matcher.matches()) {
+                currentClass = matcher.group(1);
+                String dependentClass = matcher.group(2);
                 result.addDependency(currentClass, dependentClass);
             }
         }
@@ -93,6 +89,8 @@ public class JdepsWrapper {
         List<String> command = new ArrayList<>();
         command.add(jdepsCommand);
         command.addAll(options);
+//        command.add("--module-path");
+//        command.add(classPath);
         command.add(classPathOption);
         command.add(classPath);
         command.add(path.getPath());

@@ -30,32 +30,36 @@ public class JavaModulesTest {
     @Test
     void testListModules() {
         if (false) {
-            new TreeSet<>(mr.getModuleNames()).forEach(n -> System.out.printf("\"%s\",%n", n));
+            int count = 1;
+            for (String name : new TreeSet<>(mr.getModuleNames())) {
+                System.out.printf("\"%s\", // %d%n", name, count++);
+            }
         }
         assertThat(mr.getModuleNames())
+                .hasSizeBetween(87, 89)
                 .contains(
-                        "java.base",
-                        "java.compiler",
-                        "java.datatransfer",
-                        "java.desktop",
-                        "java.instrument",
-                        "java.logging",
-                        "java.management",
-                        "java.management.rmi",
-                        "java.naming",
-                        "java.net.http",
-                        "java.prefs",
-                        "java.rmi",
-                        "java.scripting",
-                        "java.se",
-                        "java.security.jgss",
-                        "java.security.sasl",
-                        "java.smartcardio",
-                        "java.sql",
-                        "java.sql.rowset",
-                        "java.transaction.xa",
-                        "java.xml",
-                        "java.xml.crypto",
+                        "java.base", // 4
+                        "java.compiler", // 5
+                        "java.datatransfer", // 6
+                        "java.desktop", // 7
+                        "java.instrument", // 8
+                        "java.logging", // 9
+                        "java.management", // 10
+                        "java.management.rmi", // 11
+                        "java.naming", // 12
+                        "java.net.http", // 13
+                        "java.prefs", // 14
+                        "java.rmi", // 15
+                        "java.scripting", // 16
+                        "java.se", // 17
+                        "java.security.jgss", // 18
+                        "java.security.sasl", // 19
+                        "java.smartcardio", // 20
+                        "java.sql", // 21
+                        "java.sql.rowset", // 22
+                        "java.transaction.xa", // 23
+                        "java.xml", // 24
+                        "java.xml.crypto", // 25
                         "jdk.accessibility",
                         "jdk.attach",
                         "jdk.charsets",
@@ -73,8 +77,6 @@ public class JavaModulesTest {
                         "jdk.internal.le",
                         "jdk.internal.opt",
                         "jdk.internal.vm.ci",
-                        "jdk.internal.vm.compiler",
-                        "jdk.internal.vm.compiler.management",
                         "jdk.jartool",
                         "jdk.javadoc",
                         "jdk.jcmd",
@@ -96,7 +98,6 @@ public class JavaModulesTest {
                         "jdk.naming.rmi",
                         "jdk.net",
                         "jdk.nio.mapmode",
-                        "jdk.random",
                         "jdk.sctp",
                         "jdk.security.auth",
                         "jdk.security.jgss",
@@ -106,6 +107,7 @@ public class JavaModulesTest {
                         "jdk.zipfs",
                         "org.apiguardian.api",
                         "org.assertj.core",
+                        "org.dessertj.core",
                         "org.junit.jupiter.api",
                         "org.junit.jupiter.engine",
                         "org.junit.platform.commons",

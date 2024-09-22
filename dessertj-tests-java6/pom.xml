@@ -63,8 +63,7 @@
                 <configuration>
                     <toolchains>
                         <jdk>
-                            <version>1.6</version>
-                            <vendor>sun</vendor>
+                            <id>jdk6</id>
                         </jdk>
                     </toolchains>
                 </configuration>

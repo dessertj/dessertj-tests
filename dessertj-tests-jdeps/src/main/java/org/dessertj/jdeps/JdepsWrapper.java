@@ -89,7 +89,7 @@ public class JdepsWrapper {
         List<String> command = new ArrayList<>();
         command.add(jdepsCommand);
         command.addAll(options);
-//        command.add("--module-path");
+//        command.add("--class-path");
 //        command.add(classPath);
         command.add(classPathOption);
         command.add(classPath);

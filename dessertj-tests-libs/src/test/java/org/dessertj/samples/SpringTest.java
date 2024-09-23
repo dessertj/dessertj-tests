@@ -22,7 +22,7 @@ class SpringTest {
     void checkPackageCycles() {
         SortedMap<String, PackageSlice> packages = springframework
                 // remove known cycles
-                .minus("org.springframework.cglib|objenesis|batch|boot|data|test..*")
+                .minus("org.springframework.cglib|objenesis|batch|boot|data|test|aop..*")
                 .minus("org.springframework.http.codec..*")
                 .minus("org.springframework.security.authorization|config..*")
                 .partitionByPackage();

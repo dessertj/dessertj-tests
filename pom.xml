@@ -6,7 +6,7 @@
 
     <groupId>org.dessertj</groupId>
     <artifactId>dessertj-tests-parent</artifactId>
-    <version>0.6.4-SNAPSHOT</version>
+    <version>0.6.5-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -36,7 +36,7 @@
             <dependency>
                 <groupId>org.dessertj</groupId>
                 <artifactId>dessertj-core</artifactId>
-                <version>0.6.4-SNAPSHOT</version>
+                <version>0.6.5-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.logging.log4j</groupId>

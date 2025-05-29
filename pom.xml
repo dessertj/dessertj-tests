@@ -28,7 +28,7 @@
         <maven.compiler.release>${java.version}</maven.compiler.release>
         <log4j.version>2.24.0</log4j.version>
         <junit.version>5.11.0</junit.version>
-        <spring.boot.version>3.3.4</spring.boot.version>
+        <spring.boot.version>3.5.0</spring.boot.version>
     </properties>
 
     <dependencyManagement>
@@ -55,7 +55,7 @@
             <dependency>
                 <groupId>org.assertj</groupId>
                 <artifactId>assertj-core</artifactId>
-                <version>3.24.2</version>
+                <version>3.27.3</version>
             </dependency>
             <dependency>
                 <!-- Import dependency management from Spring Boot -->

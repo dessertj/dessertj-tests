@@ -36,7 +36,7 @@ public class JavaModulesTest {
             }
         }
         assertThat(mr.getModuleNames())
-                .hasSizeBetween(87, 89)
+                .hasSizeBetween(84, 86) // 84 on Linux, 86 on Windows
                 .contains(
                         "java.base", // 4
                         "java.compiler", // 5

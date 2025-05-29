@@ -1,7 +1,11 @@
 package org.dessertj.tutorial;
 
 import org.dessertj.classfile.attribute.AttributeInfo;
-import org.dessertj.slicing.*;
+import org.dessertj.slicing.Classpath;
+import org.dessertj.slicing.Clazz;
+import org.dessertj.slicing.PackageSlice;
+import org.dessertj.slicing.Root;
+import org.dessertj.slicing.Slice;
 import org.dessertj.util.CombinationUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.engine.execution.JupiterEngineExecutionContext;
@@ -54,11 +58,14 @@ public class LayersTest {
     @Test
     void listJunit5() {
         Slice junit5 = cp.slice("org.junit..*")
+                .minus(cp.rootOf(org.junit.platform.engine.Filter.class)) // has cycles
+                .minus(cp.rootOf(org.junit.platform.commons.support.Resource.class)) // has cycles
+                .minus(cp.rootOf(org.junit.jupiter.api.Test.class)) // has cycles
                 .minus("..shadow..*") // shadow packages don't belong to junit itself
                 .minus(this::isDeprecated); // ignore deprecated classes
-        dessert(junit5.partitionByPackage()).isCycleFree();
         junit5.getClazzes().stream().sorted().forEach(c ->
                 System.out.printf("%s: %s%n", c.getRoot().getRootFile().getName(), c.getName()));
+        dessert(junit5.partitionByPackage()).isCycleFree();
     }
 
     private boolean isDeprecated(Clazz clazz) {

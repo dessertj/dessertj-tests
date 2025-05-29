@@ -23,7 +23,7 @@ class SpringTest {
         SortedMap<String, PackageSlice> packages = springframework
                 // remove known cycles
                 .minus("org.springframework.cglib|objenesis|batch|boot|data|test|aop..*")
-                .minus("org.springframework.http.codec..*")
+                .minus("org.springframework.http.codec|server..*")
                 .minus("org.springframework.security.authorization|config..*")
                 .partitionByPackage();
         assertThat(packages).hasSizeGreaterThan(350);

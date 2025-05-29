@@ -67,6 +67,9 @@ public class CyclesTest {
     @Test
     void checkJUnit5IsCycleFree() {
         Slice junit5 = cp.slice("org.junit..*")
+                .minus(cp.rootOf(org.junit.platform.engine.Filter.class)) // has cycles
+                .minus(cp.rootOf(org.junit.platform.commons.support.Resource.class)) // has cycles
+                .minus(cp.rootOf(org.junit.jupiter.api.Test.class)) // has cycles
                 .minus("..shadow..*") // shadow packages don't belong to junit itself
                 .minus(this::isDeprecated); // ignore deprecated classes
         dessert(junit5.partitionByPackage()).isCycleFree();

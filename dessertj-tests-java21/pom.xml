@@ -24,6 +24,10 @@
             <artifactId>dessertj-core</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>net.bytebuddy</groupId>
+            <artifactId>byte-buddy</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -68,5 +72,4 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
 </project>
